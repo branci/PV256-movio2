@@ -17,6 +17,7 @@ public class App extends Application {
         }
     }
 
+
     private void initStrictMode() {
         StrictMode.ThreadPolicy.Builder tpb = new StrictMode.ThreadPolicy.Builder()
                 .detectAll()
