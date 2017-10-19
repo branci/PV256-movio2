@@ -20,6 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".uco_422678.MovieDetailActivity"
+            android:label="Movie Detail"
+            android:parentActivityName=".uco_422678.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".uco_422678.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
