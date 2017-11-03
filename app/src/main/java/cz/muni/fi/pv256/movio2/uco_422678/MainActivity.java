@@ -14,7 +14,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 
+
+import java.util.ArrayList;
 
 import cz.muni.fi.pv256.movio2.R;
 
@@ -24,55 +27,12 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
     private RecyclerView.LayoutManager mLayoutManager;
     private static final String PREFSTRING = "currentTheme";
     private boolean mTwoPane;
+    private ArrayList<Object> mMovieList;
 
-    //private Button mSwitchThemeButton;
-    //private SharedPreferences myPreferences;
-    //private SharedPreferences.Editor myPreferencesEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //Ukol2
-        /*
-        myPreferences = getSharedPreferences("movio2preferences", MODE_PRIVATE);
-        final boolean isCurrentThemeAppTheme = myPreferences.getBoolean(PREFSTRING, false);
-        if(isCurrentThemeAppTheme){
-            setTheme(R.style.AppTheme);
-        } else {
-            setTheme(R.style.SecondTheme);
-        }
-        myPreferencesEditor = myPreferences.edit();
-
-
-        setContentView(R.layout.activity_main);
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
-
-        mSwitchThemeButton = (Button) findViewById(R.id.switchtheme_button);
-
-        mSwitchThemeButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                myPreferencesEditor.putBoolean(PREFSTRING, !isCurrentThemeAppTheme);
-                myPreferencesEditor.apply();
-
-                Intent intent = new Intent(getApplicationContext() ,MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        //improving performance if changes
-        //in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        //mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        */
-
-        //TODO: specify an adapter
 
         setContentView(R.layout.activity_main);
         if (findViewById(R.id.movie_detail_container) != null) {
@@ -92,10 +52,32 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
             mTwoPane = false;
             getSupportActionBar().setElevation(0f);
         }
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        mMovieList = new ArrayList<>();
+
+        mMovieList.add("In theatres now");
+        mMovieList.add(new Movie(1234, "",  "movie1", "This is a movie 1", 0.1f));
+        mMovieList.add(new Movie(5678, "",  "movie2", "This is a movie 2", 0.2f));
+        mMovieList.add(new Movie(91011, "",  "movie3", "This is a movie 3", 0.3f));
+        mMovieList.add("Drama movies");
+        mMovieList.add(new Movie(1213, "",  "movie4", "This is a movie 4", 0.4f));
+        mMovieList.add(new Movie(1415, "",  "movie5", "This is a movie 5", 0.5f));
+        mMovieList.add(new Movie(1617, "",  "movie6", "This is a movie 6", 0.6f));
+
+        RecyclerAdapter adapter = new RecyclerAdapter(this,mMovieList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
     }
 
-    @Override
-    public void onMovieSelect(Movie movie) {
+    //@Override
+    public void onMovieSelect(int movieListPosition) {
+        Movie movie = (Movie)mMovieList.get(movieListPosition);
+
         if (mTwoPane) {
             FragmentManager myManager = getSupportFragmentManager();
 

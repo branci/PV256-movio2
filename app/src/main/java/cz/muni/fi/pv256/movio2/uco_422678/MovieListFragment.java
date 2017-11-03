@@ -56,6 +56,8 @@ public class MovieListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_list , container, false);
 
+        //Ukol3
+        /*
         mMovieList.add(new Movie(1234, "",  "movie1", "This is a movie 1", 0.1f));
         mMovieList.add(new Movie(5678, "",  "movie2", "This is a movie 2", 0.2f));
         mMovieList.add(new Movie(91011, "",  "movie3", "This is a movie 3", 0.3f));
@@ -84,6 +86,7 @@ public class MovieListFragment extends Fragment {
         mButton1.setOnClickListener(clickListener);
         mButton2.setOnClickListener(clickListener);
         mButton3.setOnClickListener(clickListener);
+        */
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
             mPosition = savedInstanceState.getInt(SELECTED_KEY);
@@ -105,7 +108,7 @@ public class MovieListFragment extends Fragment {
     }
 
     public interface OnMovieSelectListener {
-        void onMovieSelect(Movie movie);
+        void onMovieSelect(int movieListPosition);
     }
 
 }

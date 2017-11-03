@@ -25,19 +25,4 @@
               tools:context="cz.muni.fi.pv256.movio2.uco_422678.MainActivity"
               tools:layout="@android:layout/list_content" />
 
-    <!-- Ukol2
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_main"/>
-
-    <Button
-        android:id="@+id/switchtheme_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|left"
-        android:text="@string/switchtheme_button"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="top|right"/>
-    -->
-
 </android.support.design.widget.CoordinatorLayout>
