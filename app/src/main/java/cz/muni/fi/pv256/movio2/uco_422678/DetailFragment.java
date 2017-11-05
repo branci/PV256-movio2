@@ -44,12 +44,17 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        TextView titleTextView = (TextView) view.findViewById(R.id.detail_movie);
+        TextView titleTextView = (TextView) view.findViewById(R.id.movie_title);
+        TextView ratingTextView = (TextView) view.findViewById(R.id.movie_rating);
+        TextView descriptionTextView = (TextView) view.findViewById(R.id.movie_description);
 
         if (mMovie != null) {
             titleTextView.setText(mMovie.getTitle());
+            ratingTextView.setText(Float.toString(mMovie.getPopularity()));
+            descriptionTextView.setText(mMovie.getBackdrop());
         }
 
         return view;
     }
+
 }

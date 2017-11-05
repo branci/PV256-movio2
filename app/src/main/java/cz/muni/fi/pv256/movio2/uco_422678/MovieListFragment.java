@@ -24,10 +24,7 @@ public class MovieListFragment extends Fragment {
     private int mPosition = ListView.INVALID_POSITION;
     private OnMovieSelectListener mListener;
     private Context mContext;
-    private ArrayList<Movie> mMovieList = new ArrayList<>();
-    private Button mButton1;
-    private Button mButton2;
-    private Button mButton3;
+
 
     @Override
     public void onAttach(Context activity) {
@@ -55,38 +52,6 @@ public class MovieListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_list , container, false);
-
-        //Ukol3
-        /*
-        mMovieList.add(new Movie(1234, "",  "movie1", "This is a movie 1", 0.1f));
-        mMovieList.add(new Movie(5678, "",  "movie2", "This is a movie 2", 0.2f));
-        mMovieList.add(new Movie(91011, "",  "movie3", "This is a movie 3", 0.3f));
-
-        mButton1 = (Button) view.findViewById(R.id.movie1);
-        mButton2 = (Button) view.findViewById(R.id.movie2);
-        mButton3 = (Button) view.findViewById(R.id.movie3);
-
-        View.OnClickListener clickListener =  new View.OnClickListener(){
-
-            @Override
-            public void onClick(View myView) {
-                switch(myView.getId()) {
-                    case R.id.movie1:
-                        mListener.onMovieSelect(mMovieList.get(0));
-                        break;
-                    case R.id.movie2:
-                        mListener.onMovieSelect(mMovieList.get(1));
-                        break;
-                    case R.id.movie3:
-                        mListener.onMovieSelect(mMovieList.get(2));
-                        break;
-                }
-            }
-        };
-        mButton1.setOnClickListener(clickListener);
-        mButton2.setOnClickListener(clickListener);
-        mButton3.setOnClickListener(clickListener);
-        */
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
             mPosition = savedInstanceState.getInt(SELECTED_KEY);
