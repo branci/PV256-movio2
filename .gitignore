@@ -57,3 +57,6 @@ com_crashlytics_export_strings.xml
 
 # Fabric
 fabric.properties
+
+# Keystore
+keystore.properties

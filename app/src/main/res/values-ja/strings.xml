@@ -1,0 +1,9 @@
+<resources>
+    <!--string name="app_name">Movio2</string-->
+    <string name="title_activity_main">メイン</string>
+    <string name="switchtheme_button">テーマを切り替える</string>
+    <string name="section_in_theatres">劇場で</string>
+    <string name="section_drama">ドラマ</string>
+    <string name="no_data_warning">利用可能な映画はありません</string>
+    <string name="heading_overview">概要</string>
+</resources>

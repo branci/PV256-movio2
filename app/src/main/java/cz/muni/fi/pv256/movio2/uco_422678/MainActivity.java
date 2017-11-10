@@ -18,6 +18,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import cz.muni.fi.pv256.movio2.R;
 
@@ -58,14 +59,26 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
 
         mMovieList = new ArrayList<>();
 
-        mMovieList.add("In theatres now");
-        mMovieList.add(new Movie(1234, "",  "movie1", "This is a movie 1", 0.1f));
-        mMovieList.add(new Movie(5678, "",  "movie2", "This is a movie 2", 0.2f));
-        mMovieList.add(new Movie(91011, "",  "movie3", "This is a movie 3", 0.3f));
-        mMovieList.add("Drama movies");
-        mMovieList.add(new Movie(1213, "",  "movie4", "This is a movie 4", 0.4f));
-        mMovieList.add(new Movie(1415, "",  "movie5", "This is a movie 5", 0.5f));
-        mMovieList.add(new Movie(1617, "",  "movie6", "This is a movie 6", 0.6f));
+        mMovieList.add(getResources().getString(R.string.section_in_theatres));
+        if(Locale.getDefault().getLanguage().equals("sk") == true){
+            mMovieList.add(new Movie(1234, "",  "film1", "Toto je film 1", 0.1f));
+            mMovieList.add(new Movie(5678, "",  "film2", "Toto je film 2", 0.2f));
+            mMovieList.add(new Movie(91011, "",  "film3", "Toto je film 3", 0.3f));
+        }else {
+            mMovieList.add(new Movie(1234, "",  "movie1", "This is a movie 1", 0.1f));
+            mMovieList.add(new Movie(5678, "",  "movie2", "This is a movie 2", 0.2f));
+            mMovieList.add(new Movie(91011, "",  "movie3", "This is a movie 3", 0.3f));
+        }
+        mMovieList.add(getResources().getString(R.string.section_drama));
+        if(Locale.getDefault().getLanguage().equals("sk") == true){
+            mMovieList.add(new Movie(1213, "",  "film4", "Toto je film 4", 0.4f));
+            mMovieList.add(new Movie(1415, "",  "film5", "Toto je film 5", 0.5f));
+            mMovieList.add(new Movie(1617, "",  "film6", "Toto je film 6", 0.6f));
+        }else {
+            mMovieList.add(new Movie(1213, "",  "movie4", "This is a movie 4", 0.4f));
+            mMovieList.add(new Movie(1415, "",  "movie5", "This is a movie 5", 0.5f));
+            mMovieList.add(new Movie(1617, "",  "movie6", "This is a movie 6", 0.6f));
+        }
 
         RecyclerAdapter adapter = new RecyclerAdapter(this,mMovieList);
         recyclerView.setAdapter(adapter);

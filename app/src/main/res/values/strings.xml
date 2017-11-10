@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">Movio2</string>
+    <!--string name="app_name">Movio2</string-->
     <string name="title_activity_main">MainActivity</string>
     <string name="switchtheme_button">Switch theme</string>
+    <string name="section_in_theatres">In theatres now</string>
+    <string name="section_drama">Drama movies</string>
+    <string name="no_data_warning">No movies available.\n Check your internet connection.</string>
+    <string name="heading_overview">Overview</string>
 </resources>

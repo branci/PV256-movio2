@@ -1,8 +1,37 @@
+def VERSION_MAJOR = 1
+def VERSION_MINOR = 5
+def VERSION_PATCH = 1
+def VERSION_BUILD = 1
+def VERSION_CODE = VERSION_MAJOR * 10000 + VERSION_MINOR * 1000 + VERSION_PATCH * 100 + VERSION_BUILD
+def logging = true
+
 apply plugin: 'com.android.application'
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
+
+    //distinguish apk file name between different versions and builds
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    "$project.name-$variant.name-$variant.versionName-${variant.versionName}.apk")
+        }
+    }
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     defaultConfig {
         applicationId "cz.muni.fi.pv256.movio2.uco_422678"
         minSdkVersion 17
@@ -10,12 +39,39 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //leave only the necessary resources in the apk
+        resConfigs "sk", "en"
+
+        versionCode VERSION_CODE
+        versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            versionNameSuffix ".${VERSION_BUILD}-${VERSION_CODE}"
+            buildConfigField "boolean", "REPORT_CRASHES", "false"
+        }
+    }
+    productFlavors {
+        primary {
+            logging=true
+            resValue "string", "app_name", "Movio2"
+        }
+        secondary {
+            logging=false
+            applicationIdSuffix ".secondary"
+            resValue "string", "app_name", "Movio2(secret flavor)"
+        }
+    }
+    sourceSets.primary{
+        res.srcDirs = ['res', 'src/main/res']
+    }
+    sourceSets.secondary{
+        res.srcDirs = ['res', 'src/secondary/res']
     }
 }
 

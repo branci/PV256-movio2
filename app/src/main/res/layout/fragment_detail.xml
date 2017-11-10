@@ -73,7 +73,7 @@
             android:id="@+id/heading_overview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Overview"
+            android:text="@string/heading_overview"
             android:textSize="18sp"/>
 
         <TextView

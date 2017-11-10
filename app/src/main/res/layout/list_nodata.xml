@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="No movies available.\n Check your internet connection."
+        android:text="@string/no_data_warning"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="35dp"
         />
