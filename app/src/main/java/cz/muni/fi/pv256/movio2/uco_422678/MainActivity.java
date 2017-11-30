@@ -15,7 +15,9 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -23,13 +25,12 @@ import java.util.Locale;
 import cz.muni.fi.pv256.movio2.R;
 
 public class MainActivity extends AppCompatActivity implements MovieListFragment.OnMovieSelectListener {
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private static final String PREFSTRING = "currentTheme";
+    //private RecyclerView mRecyclerView;
+    //private RecyclerView.Adapter mAdapter;
+    //private RecyclerView.LayoutManager mLayoutManager;
+    //private static final String PREFSTRING = "currentTheme";
+    //protected static ArrayList<Object> mMovieList;
     private boolean mTwoPane;
-    private ArrayList<Object> mMovieList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,44 +54,10 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
             mTwoPane = false;
             getSupportActionBar().setElevation(0f);
         }
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        recyclerView.setHasFixedSize(true);
-
-        mMovieList = new ArrayList<>();
-
-        mMovieList.add(getResources().getString(R.string.section_in_theatres));
-        if(Locale.getDefault().getLanguage().equals("sk") == true){
-            mMovieList.add(new Movie(1234, "",  "film1", "Toto je film 1", 0.1f));
-            mMovieList.add(new Movie(5678, "",  "film2", "Toto je film 2", 0.2f));
-            mMovieList.add(new Movie(91011, "",  "film3", "Toto je film 3", 0.3f));
-        }else {
-            mMovieList.add(new Movie(1234, "",  "movie1", "This is a movie 1", 0.1f));
-            mMovieList.add(new Movie(5678, "",  "movie2", "This is a movie 2", 0.2f));
-            mMovieList.add(new Movie(91011, "",  "movie3", "This is a movie 3", 0.3f));
-        }
-        mMovieList.add(getResources().getString(R.string.section_drama));
-        if(Locale.getDefault().getLanguage().equals("sk") == true){
-            mMovieList.add(new Movie(1213, "",  "film4", "Toto je film 4", 0.4f));
-            mMovieList.add(new Movie(1415, "",  "film5", "Toto je film 5", 0.5f));
-            mMovieList.add(new Movie(1617, "",  "film6", "Toto je film 6", 0.6f));
-        }else {
-            mMovieList.add(new Movie(1213, "",  "movie4", "This is a movie 4", 0.4f));
-            mMovieList.add(new Movie(1415, "",  "movie5", "This is a movie 5", 0.5f));
-            mMovieList.add(new Movie(1617, "",  "movie6", "This is a movie 6", 0.6f));
-        }
-
-        RecyclerAdapter adapter = new RecyclerAdapter(this,mMovieList);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
     }
 
-    //@Override
-    public void onMovieSelect(int movieListPosition) {
-        Movie movie = (Movie)mMovieList.get(movieListPosition);
-
+    @Override
+    public void onMovieSelect(Movie movie) {
         if (mTwoPane) {
             FragmentManager myManager = getSupportFragmentManager();
 
@@ -105,5 +72,4 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
             startActivity(intent);
         }
     }
-
 }

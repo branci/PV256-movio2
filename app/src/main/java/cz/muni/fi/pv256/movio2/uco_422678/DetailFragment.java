@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.content.Context;
 import cz.muni.fi.pv256.movio2.R;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by BranislavSmik on 10/19/2017.
@@ -47,11 +49,13 @@ public class DetailFragment extends Fragment {
         TextView titleTextView = (TextView) view.findViewById(R.id.movie_title);
         TextView ratingTextView = (TextView) view.findViewById(R.id.movie_rating);
         TextView descriptionTextView = (TextView) view.findViewById(R.id.movie_description);
+        ImageView movieImage = (ImageView) view.findViewById(R.id.movie_image);
 
         if (mMovie != null) {
             titleTextView.setText(mMovie.getTitle());
             ratingTextView.setText(Float.toString(mMovie.getPopularity()));
-            descriptionTextView.setText(mMovie.getBackdrop());
+            descriptionTextView.setText("Description of the movie " + mMovie.getTitle());
+            Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500/" + mMovie.getBackdrop()).into(movieImage);
         }
 
         return view;

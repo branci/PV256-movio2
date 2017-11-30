@@ -60,3 +60,6 @@ fabric.properties
 
 # Keystore
 keystore.properties
+
+# Api key is here
+Constants.java

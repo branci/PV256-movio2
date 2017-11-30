@@ -14,7 +14,7 @@ public class Movie implements Parcelable{
     private String mBackdrop;
     private float mPopularity;
 
-    public Movie(long realeaseDate, String coverPath, String title, String backdrop, float popularity) {
+    public Movie(long realeaseDate, String coverPath, String backdrop, String title, float popularity) {
         mRealeaseDate = realeaseDate;
         mCoverPath = coverPath;
         mTitle = title;

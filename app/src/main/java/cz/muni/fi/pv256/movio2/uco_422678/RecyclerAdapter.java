@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.util.List;
+import com.squareup.picasso.Picasso;
 
 import cz.muni.fi.pv256.movio2.R;
 
@@ -22,9 +23,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_NODATA = 0;
     private static final int TYPE_MOVIE = 1;
     private static final int TYPE_CATEGORY = 2;
+    private static final String IMAGE_PATH = "https://image.tmdb.org/t/p/w500/";
 
     private Context mContext;
-    private List<Object> mMovieList;
+    protected static List<Object> mMovieList;
 
     public RecyclerAdapter(Context context, List<Object> data) {
         mContext = context;
@@ -66,7 +68,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
                     if(context != null) {
-                        ((MainActivity) context).onMovieSelect(getAdapterPosition());
+                        //((MainActivity) context).onMovieSelect(getAdapterPosition());
+                        ((MainActivity) context).onMovieSelect((Movie)mMovieList.get(getAdapterPosition()));
                     }
                 }
             };
@@ -75,7 +78,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
     }
-
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -112,10 +114,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 Movie movie = (Movie) mMovieList.get(position);
                 movieHolder.movie_title.setText(movie.getTitle());
                 movieHolder.movie_rating.setText(Float.toString(movie.getPopularity()));
+                Picasso.with(mContext).load(IMAGE_PATH + movie.getCoverPath()).into(movieHolder.movie_image);
                 break;
             case TYPE_CATEGORY:
                 CategoryViewHolder categoryHolder = (CategoryViewHolder) viewHolder;
-                categoryHolder.text.setText((String) mMovieList.get(position));
+                categoryHolder.text.setText(mMovieList.get(position).toString());
                 break;
             case TYPE_NODATA :
                 EmptyViewHolder emptyView = (EmptyViewHolder) viewHolder;
@@ -123,6 +126,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
         }
 
+    }
+
+    public void dataUpdate(List<Object> data) {
+        this.mMovieList = data;
+        notifyDataSetChanged();
     }
 
     // Return the size of your dataset (invoked by the layout manager)
