@@ -14,14 +14,23 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import java.util.ArrayList;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.view.ViewStub;
 import java.io.IOException;
 import android.widget.Toast;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import cz.muni.fi.pv256.movio2.R;
+import cz.muni.fi.pv256.movio2.uco_422678.DownloadService;
 
 /**
  * Created by BranislavSmik on 10/19/2017.
@@ -37,10 +46,10 @@ public class MovieListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     protected RecyclerAdapter mRecyclerAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    //protected AsyncTask downloadTask;
     private ViewStub mEmptyView;
-    private Downloader mDownloader;
+    private MovieBroadcastReceiver mReceiver;
 
+    private ArrayList<Object> items = new ArrayList<>();
 
     @Override
     public void onAttach(Context activity) {
@@ -83,12 +92,23 @@ public class MovieListFragment extends Fragment {
             }
             mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
 
+            initChannels(getActivity());
+
             mRecyclerAdapter = new RecyclerAdapter(getContext(), new ArrayList<>());
             mRecyclerView.setAdapter(mRecyclerAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            mDownloader = new Downloader();
-            mDownloader.execute();
+            Intent intent = new Intent(getActivity(), DownloadService.class);
+            intent.setAction(DownloadService.ACTION_NEW);
+            getActivity().startService(intent);
+
+            intent = new Intent(getActivity(), DownloadService.class);
+            intent.setAction(DownloadService.ACTION_DRAMA);
+            getActivity().startService(intent);
+
+            mReceiver = new MovieBroadcastReceiver();
+            IntentFilter intentFilter = new IntentFilter(DownloadService.INTENT);
+            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, intentFilter);
         }
 
         return view;
@@ -110,45 +130,74 @@ public class MovieListFragment extends Fragment {
         void onMovieSelect(Movie movie);
     }
 
-    private class Downloader extends AsyncTask<Void, Void, Boolean> {
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter(DownloadService.INTENT);
+        mReceiver = new MovieBroadcastReceiver();
+        getActivity().registerReceiver(mReceiver, intentFilter);
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(mReceiver);
+    }
+
+    public class MovieBroadcastReceiver extends BroadcastReceiver {
         @Override
-        protected Boolean doInBackground(Void... params) {
-            try {
-                ArrayList<Movie> movieListNew = Networking.getMovieList(Constants.QUERY_PARAM_INTHEATRES);
-                ArrayList<Movie> movieListDrama = Networking.getMovieList(Constants.QUERY_PARAM_DRAMA);
-                final ArrayList<Object> items = new ArrayList<>();
-
-                items.add("In theatres now");
-                items.addAll(movieListNew);
-                items.add("Drama movies");
-                items.addAll(movieListDrama);
-
-                MovieListFragment.this.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRecyclerAdapter.dataUpdate(items);
-                    }
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
+        public void onReceive(Context context, Intent intent) {
+            String error = intent.getStringExtra(DownloadService.RESPONSE);
+            if (error != null) {
+                switch (error) {
+                    case DownloadService.ERROR_CONN:
+                        mRecyclerView.setVisibility(View.GONE);
+                        mEmptyView.setVisibility(View.VISIBLE);
+                        break;
+                    case DownloadService.ERROR_PARSE:
+                        mRecyclerView.setVisibility(View.GONE);
+                        mEmptyView.setVisibility(View.VISIBLE);
+                        break;
+                }
             }
-            return true;
-        }
 
-        @Override
-        protected void onPostExecute(Boolean result) {
-            if (result)
-                Toast.makeText(getActivity().getApplicationContext(), "New movies updated", Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(getActivity().getApplicationContext(), "Connection failed", Toast.LENGTH_SHORT).show();
+            String action = intent.getStringExtra(DownloadService.ACTION);
+            ArrayList<MovieDTO> movieList = (ArrayList<MovieDTO>) intent.getSerializableExtra(DownloadService.RESPONSE);
+            if(action == DownloadService.ACTION_NEW) {
+                //items = new ArrayList<>();
+                items.add("In theatres now");
+                addMovies(movieList);
+
+                if (mRecyclerAdapter != null) mRecyclerAdapter.dataUpdate(items);
+            } else if(action == DownloadService.ACTION_DRAMA) {
+                //items = new ArrayList<>();
+                items.add("Drama movies");
+                addMovies(movieList);
+
+                if (mRecyclerAdapter != null) mRecyclerAdapter.dataUpdate(items);
+            }
         }
     }
 
-    private boolean isConnected(Context context) {
+    public static boolean isConnected(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void addMovies(ArrayList<MovieDTO> movieList){
+        for (MovieDTO m : movieList) {
+            Movie movie = new Movie(m.getRealeaseDateAsLong(), m.getCoverPath(), m.getBackdrop(), m.getTitle(), m.getPopularityAsFloat());
+            items.add(movie);
+        }
+    }
+
+    public void initChannels(Context context) {
+        if (Build.VERSION.SDK_INT < 26) {
+            return;
+        }
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationChannel channel = new NotificationChannel(DownloadService.CHANNEL, "Download", NotificationManager.IMPORTANCE_LOW);
+        notificationManager.createNotificationChannel(channel);
     }
 }

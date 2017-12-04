@@ -20,8 +20,8 @@ import java.util.List;
  */
 public class Networking {
 
-    private static String URL = "http://api.themoviedb.org/";
-    private static String PATH = "3/discover/movie?api_key=";
+    //private static String URL = "http://api.themoviedb.org/";
+    //private static String PATH = "3/discover/movie?api_key=";
     //private static String QUERY_PARAM_INTHEATRES = "&primary_release_date.gte=2017-12-01&primary_release_date.lte=2017-12-24"; //Just MVP solution
     //private static String QUERY_PARAM_DRAMA = "&with_genres=18&sort_by=popularity.desc";
 
@@ -31,7 +31,7 @@ public class Networking {
     public static ArrayList<Movie> getMovieList(String query_param) throws IOException {
 
         Request request = new Request.Builder()
-                .url(URL + PATH + Constants.APIKEYv3 + query_param)
+                .url(Constants.URL + Constants.PATH + Constants.APIKEYv3 + query_param)
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
                 .build();

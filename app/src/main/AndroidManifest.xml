@@ -30,6 +30,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".uco_422678.MainActivity" />
         </activity>
+
+        <service
+            android:name=".uco_422678.DownloadService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+
     </application>
 
 </manifest>
