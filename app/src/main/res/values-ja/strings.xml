@@ -6,4 +6,5 @@
     <string name="section_drama">ドラマ</string>
     <string name="no_data_warning">利用可能な映画はありません</string>
     <string name="heading_overview">概要</string>
+    <string name="heading_date">概</string>
 </resources>

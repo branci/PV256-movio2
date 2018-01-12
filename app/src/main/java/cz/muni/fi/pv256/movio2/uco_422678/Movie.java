@@ -8,25 +8,34 @@ import android.os.Parcelable;
  */
 
 public class Movie implements Parcelable{
-    private long mRealeaseDate;
+
+    private Long mId;
+    private Long mRealeaseDate;
     private String mCoverPath;
     private String mTitle;
     private String mBackdrop;
-    private float mPopularity;
+    private String mOverview;
+    private Float mPopularity;
 
-    public Movie(long realeaseDate, String coverPath, String backdrop, String title, float popularity) {
+    public Movie(Long id, Long realeaseDate, String coverPath, String backdrop, String title, String overview, Float popularity) {
+        mId = id;
         mRealeaseDate = realeaseDate;
         mCoverPath = coverPath;
         mTitle = title;
         mBackdrop = backdrop;
+        mOverview = overview;
         mPopularity = popularity;
     }
 
-    public long getRealeaseDate() {
+    public Long getId() { return mId; }
+
+    public void setId(Long id) { mId = id; }
+
+    public Long getRealeaseDate() {
         return mRealeaseDate;
     }
 
-    public void setRealeaseDate(long realeaseDate) {
+    public void setRealeaseDate(Long realeaseDate) {
         mRealeaseDate = realeaseDate;
     }
 
@@ -54,13 +63,17 @@ public class Movie implements Parcelable{
         mBackdrop = backdrop;
     }
 
-    public float getPopularity() {
+    public Float getPopularity() {
         return mPopularity;
     }
 
-    public void setPopularity(float popularity) {
+    public void setPopularity(Float popularity) {
         mPopularity = popularity;
     }
+
+    public void setOverview(String overview){ mOverview = overview;}
+
+    public String getOverview() { return  mOverview;}
 
     @Override
     public int describeContents() {
@@ -68,19 +81,23 @@ public class Movie implements Parcelable{
     }
 
     public Movie(Parcel in) {
+        mId = in.readLong();
         mRealeaseDate = in.readLong();
         mCoverPath = in.readString();
         mTitle = in.readString();
         mBackdrop = in.readString();
+        mOverview = in.readString();
         mPopularity = in.readFloat();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(mId);
         dest.writeLong(mRealeaseDate);
         dest.writeString(mCoverPath);
         dest.writeString(mTitle);
         dest.writeString(mBackdrop);
+        dest.writeString(mOverview);
         dest.writeFloat(mPopularity);
     }
 

@@ -9,9 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -31,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
     //private static final String PREFSTRING = "currentTheme";
     //protected static ArrayList<Object> mMovieList;
     private boolean mTwoPane;
+    private SwitchCompat mSwitchButton;
+    private Toolbar toolbar;
+    protected MovieListFragment mListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,5 +79,37 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
             intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, movie);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem item = menu.findItem(R.id.menuSwitch);
+        item.setActionView(R.layout.menu_switch);
+        mSwitchButton = item.getActionView().findViewById(R.id.actionBarSwitch);
+        mSwitchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()) {
+                    compoundButton.setText("Favourites");
+                    compoundButton.setChecked(true);
+                    mListFragment = MovieListFragment.newInstance(true);
+                } else {
+                    mListFragment.setMenuVisibility(false);
+                    compoundButton.setText("Discover");
+                    compoundButton.setChecked(false);
+                    mListFragment = MovieListFragment.newInstance(false);
+                }
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_main, mListFragment)
+                        .commit();
+
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
     }
 }

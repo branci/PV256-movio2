@@ -6,4 +6,5 @@
     <string name="section_drama">Dráma</string>
     <string name="no_data_warning">Žiadne dostupné filmy.\n Skontroluj prosím svoje internetové pripojenie.</string>
     <string name="heading_overview">Prehľad</string>
+    <string name="heading_date">Dátum vydania:</string>
 </resources>

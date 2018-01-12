@@ -18,6 +18,8 @@ import java.util.List;
 /**
  * Created by BranislavSmik on 11/23/2017.
  */
+
+//THIS CLASS IS OBSOLETE
 public class Networking {
 
     //private static String URL = "http://api.themoviedb.org/";
@@ -56,7 +58,7 @@ public class Networking {
             }.getType());
 
             for (MovieDTO m : movies) {
-                Movie movie = new Movie(m.getRealeaseDateAsLong(), m.getCoverPath(), m.getBackdrop(), m.getTitle(), m.getPopularityAsFloat());
+                Movie movie = new Movie(m.getId() ,m.getRealeaseDateAsLong(), m.getCoverPath(), m.getBackdrop(), m.getTitle(), m.getOverview(), m.getPopularityAsFloat());
                 mData.add(movie);
             }
         } catch (JSONException e) {

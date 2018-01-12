@@ -11,6 +11,8 @@ import java.util.Date;
 import com.google.gson.annotations.SerializedName;
 
 public class MovieDTO {
+    @SerializedName("id")
+    private Long mId;
     @SerializedName("release_date")
     private String mRealeaseDate;
     @SerializedName("poster_path")
@@ -21,21 +23,28 @@ public class MovieDTO {
     private String mPopularity;
     @SerializedName("backdrop_path")
     private String mBackdrop;
+    @SerializedName("overview")
+    private String mOverview;
 
-    public MovieDTO(String realeaseDate, String coverPath, String backdrop, String title, String popularity) {
+
+    public MovieDTO(Long id, String realeaseDate, String coverPath, String backdrop, String title, String overview, String popularity) {
+        mId = id;
         mRealeaseDate = realeaseDate;
         mCoverPath = coverPath;
         mTitle = title;
         mBackdrop = backdrop;
+        mOverview = overview;
         mPopularity = popularity;
     }
+
+    public Long getId() { return mId; }
 
     public String getRealeaseDate() {
         return mRealeaseDate;
     }
 
-    public long getRealeaseDateAsLong() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    public Long getRealeaseDateAsLong() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
             date = (Date)formatter.parse(getRealeaseDate());
@@ -60,6 +69,8 @@ public class MovieDTO {
     public String getPopularity() {
         return mPopularity;
     }
+
+    public String getOverview() {return mOverview;}
 
     public Float getPopularityAsFloat() {
         return Float.parseFloat(getPopularity());

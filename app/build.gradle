@@ -88,6 +88,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'joda-time:joda-time:2.9.9'
     testCompile 'junit:junit:4.12'
     compile "com.android.support:support-core-utils:26.1.0"
 }
