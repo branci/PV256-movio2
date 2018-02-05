@@ -1,19 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
 
-<android.support.v7.widget.SwitchCompat
-    android:id="@+id/actionBarSwitch"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:checked="false"
-    android:paddingStart="5dp"
-    android:paddingEnd="20dp"
-    android:text="Discover"
-    android:textAlignment="textStart"
-    android:textColor="#FFFFFFFF"
-    android:textSize="10pt"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchForActionBar"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:checked="false"
+            android:paddingEnd="10dp"
+            android:paddingStart="5dp"
+            android:text="Discover"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFFFF"
+            android:textSize="10pt"/>
+    </LinearLayout>
+</LinearLayout>
 
-</RelativeLayout>
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal" >
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/actionBarSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:checked="false"
+        android:paddingStart="5dp"
+        android:paddingEnd="20dp"
+        android:text="Discover"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFFFF"
+        android:textSize="10pt"/>
+
+    </RelativeLayout>
+    -->

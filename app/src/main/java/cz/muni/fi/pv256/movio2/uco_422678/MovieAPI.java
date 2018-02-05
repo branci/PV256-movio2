@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -12,5 +13,8 @@ import retrofit2.http.Query;
 
 public interface MovieAPI {
     @GET(Constants.PATH + Constants.APIKEYv3) //+ "{query_param}"
-    public Call<MovieList> getMovieList(@Query("query_param") String query_param);
+    Call<MovieList> getMovieList(@Query("query_param") String query_param);
+
+    @GET("3/movie/{id}?api_key=" + Constants.APIKEYv3)
+    Call<MovieDTO> getMovieById(@Path("id") Long id);
 }

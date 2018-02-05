@@ -8,4 +8,6 @@
     <string name="heading_overview">Overview</string>
     <string name="parse_error">Error parsing data</string>
     <string name="heading_date">Release date:</string>
+    <string name="content_authority">cz.muni.fi.pv256.movio2.uco_422678.provider</string>
+    <string name="sync_account_type">cz.muni.fi.pv256.movio2.uco_422678.sync</string>
 </resources>
